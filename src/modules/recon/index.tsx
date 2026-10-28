@@ -13,7 +13,7 @@ import { CHECK_LABELS, reportJson, reportMarkdown, summaryFindings } from './rep
 import type { HistoryEntry, ReconSettings } from './settings'
 import { DEFAULT_SETTINGS, HISTORY_KEY, SETTINGS_KEY, pushHistory, sanitizeHistory, sanitizeSettings } from './settings'
 import { normalizeTarget } from './target'
-import { Toggle } from './ui'
+import { MasonryGrid, Toggle } from './ui'
 import { CHECK_ORDER, useRecon } from './useRecon'
 import './recon.css'
 
@@ -277,7 +277,7 @@ export default function WebsiteRecon() {
               </div>
             </section>
             <div className="recon-grid-wrap">
-              <div className="recon-grid">
+              <MasonryGrid>
                 <section className="recon-tile recon-span-2 recon-tile-summary" aria-labelledby="recon-top-h">
                   <header className="recon-tile-head">
                     <span className="recon-tile-icon" aria-hidden="true">
@@ -312,7 +312,7 @@ export default function WebsiteRecon() {
                   )}
                 </section>
                 <ReconTiles checks={recon.checks} onRerun={recon.rerun} hasProxy={settings.proxyUrl !== ''} onConfigureProxy={() => selectTab('proxy')} />
-              </div>
+              </MasonryGrid>
             </div>
           </>
         )}

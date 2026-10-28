@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { FindingList, SeverityBadge } from '../toolbox/FindingList'
 import { safeHref } from './net'
 import type { TileStatus } from './tiles'
+import { MASONRY_GAP, useMasonry } from './useMasonry'
 import { TILE_STATUS_LABEL } from './tiles'
 import type { Finding } from './types'
 import { sortFindings } from './types'
@@ -161,5 +162,16 @@ export function Tile({ id, icon, title, status, source, message, facts, findings
         </>
       )}
     </section>
+  )
+}
+
+/** The recon tile grid with masonry packing (tiles of different heights stack without gaps). */
+export function MasonryGrid({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useMasonry(ref, MASONRY_GAP)
+  return (
+    <div ref={ref} className="recon-grid">
+      {children}
+    </div>
   )
 }
