@@ -2,6 +2,10 @@
 
 A browser-only security toolbox for developers and AppSec teams: threat modeling, secure code review checklists, everyday dev security tools and dependency vulnerability checks. It is hosted on GitHub Pages and has **no backend**. Everything you type or paste stays in your browser (localStorage).
 
+## Live demo
+
+**[tedramoni.github.io/security-toolkit](https://tedramoni.github.io/security-toolkit/)**. It is redeployed automatically on every push to `main`.
+
 ## Modules
 
 | Module | What it does |
