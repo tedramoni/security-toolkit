@@ -9,11 +9,16 @@ A browser-only toolbox for Security Champions: threat modeling, secure code revi
 | 🧭 **Threat Modeling** | STRIDE-per-element wizard: components, data flows, trust boundaries → generated threats with suggested mitigations, risk rating, Markdown/Mermaid export |
 | 🧰 **Dev Toolbox** | JWT decoder & linter, CSP evaluator & builder, security headers / cookie checker, encoders & hashes, secrets scanner |
 | ✅ **Review Checklists** | OWASP Top 10, API Security Top 10, ASVS subset and a quick PR checklist; save reviews and copy the result as a PR comment |
-| 📦 **Dependencies & CI** | Check lockfiles (npm, yarn, pip, Maven, Go, Ruby) against [OSV.dev](https://osv.dev); generate GitHub Actions security workflows (CodeQL, Dependabot, gitleaks, Semgrep, Trivy, Scorecard) |
+| 📦 **Dependencies & CI** | Check lockfiles (npm, yarn, pip, Maven, Go, Ruby, Composer, Cargo) against [OSV.dev](https://osv.dev); generate GitHub Actions security workflows (CodeQL, Dependabot, gitleaks, Semgrep, Trivy, Scorecard) |
+| 🧪 **Data Lab** | Recipe workbench: chain encoding, crypto (AES, HMAC, PBKDF2), compression, hashing, IOC extraction and defanging operations; Magic auto-detection; shareable recipes |
+| 🔐 **PKI Tools** | Certificate / chain / CSR / CRL decoder and linter, CSR and key generator, key matcher, format converter, OCSP helper, key ceremony planner, RFC 3647 CPS outline, all in-browser |
+| 🤖 **AI Skill Scanner** | Static scanner for AI agent skills (`SKILL.md`), agent instruction files, MCP configs and Claude Code hooks: prompt injection, exfiltration, hidden Unicode / ASCII smuggling, dangerous commands; SARIF export. Rule categories inspired by [NVIDIA SkillSpector](https://github.com/NVIDIA/SkillSpector) |
 
 ### Privacy
 
-- All processing happens client-side. Nothing is sent anywhere, **except** the dependency checker, which sends package names and versions to the public OSV.dev API.
+- All processing happens client-side. Nothing is sent anywhere, **except**:
+  - the dependency checker, which sends package names and versions to the public OSV.dev API;
+  - the AI Skill Scanner's optional GitHub import, which downloads the public repository you name from the GitHub API.
 - Data is kept in `localStorage` under keys prefixed with `scp:`. Use **Export backup** on the home page to save it or move it to another browser.
 
 ## Development

@@ -41,7 +41,7 @@ export const MODULES: ModuleDef[] = [
     path: '/data-lab',
     title: 'Data Lab',
     icon: '🧪',
-    description: 'CyberChef-style recipes: chain encoding, crypto, compression, hashing and extraction operations, with Magic auto-detect.',
+    description: 'Recipe workbench: chain encoding, crypto, compression, hashing and extraction operations, with Magic auto-detect.',
     Component: lazy(() => import('../modules/data-lab/index.tsx')),
   },
   {

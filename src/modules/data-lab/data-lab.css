@@ -1,0 +1,99 @@
+/* Data Lab — module-local styles. All classes are prefixed with "data-lab". */
+
+.data-lab .card + .card { margin-top: 0; }
+.data-lab h2 { font-size: 1.05rem; margin: 0; }
+.data-lab h3 { font-size: .9rem; margin: 0; }
+
+.data-lab-message { display: flex; gap: .75rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+
+.data-lab-layout { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1100px) {
+  .data-lab-layout { grid-template-columns: 220px minmax(270px, 1fr) minmax(320px, 1.35fr); }
+  .data-lab-ops { position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
+}
+@media (min-width: 760px) and (max-width: 1099px) {
+  .data-lab-layout { grid-template-columns: 220px minmax(0, 1fr); }
+  .data-lab-io-col { grid-column: 1 / -1; }
+  .data-lab-ops { max-height: 70vh; overflow-y: auto; }
+}
+@media (max-width: 759px) {
+  .data-lab-ops { max-height: 45vh; overflow-y: auto; }
+}
+
+/* ---------- operations list ---------- */
+.data-lab-ops { padding: .75rem; display: flex; flex-direction: column; gap: .35rem; min-width: 0; }
+.data-lab-ops input[type='search'] { width: 100%; }
+.data-lab-ops-hint { margin: 0; }
+.data-lab-ops-note { margin: .5rem 0 0; border-top: 1px solid var(--border); padding-top: .5rem; }
+.data-lab-cat { margin-top: .25rem; }
+.data-lab-cat-toggle {
+  width: 100%; text-align: left; background: none; border: 0; color: var(--text); font: inherit; font-weight: 600;
+  padding: .3rem .2rem; cursor: pointer; border-radius: 4px;
+}
+.data-lab-cat-toggle:hover, .data-lab-cat-toggle:focus-visible { background: var(--bg-input); }
+.data-lab-op-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.data-lab-op {
+  width: 100%; text-align: left; background: none; border: 0; border-radius: 4px; color: var(--text-dim);
+  font: inherit; font-size: .88rem; padding: .22rem .5rem .22rem 1.1rem; cursor: pointer; display: flex; flex-direction: column;
+}
+.data-lab-op:hover, .data-lab-op:focus-visible { background: var(--accent-dim); color: #fff; }
+.data-lab-op-desc { font-size: .78rem; color: var(--text-dim); }
+.data-lab-op:hover .data-lab-op-desc, .data-lab-op:focus-visible .data-lab-op-desc { color: #d1fae5; }
+
+/* ---------- recipe ---------- */
+.data-lab-recipe { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+.data-lab-io-head { gap: .5rem; }
+.data-lab-toolbar { display: flex; flex-direction: column; gap: .45rem; }
+.data-lab-toolbar select { max-width: 100%; }
+.data-lab-save-name { flex: 1; min-width: 8rem; }
+.data-lab-saved { list-style: none; margin: .4rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+.data-lab-empty { margin: 0; padding: 1rem; border: 1px dashed var(--border); border-radius: var(--radius); }
+
+.data-lab-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.data-lab-step { background: var(--bg-input); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: .5rem .6rem; }
+.data-lab-step.is-selected { border-color: var(--info); box-shadow: 0 0 0 1px var(--info); }
+.data-lab-step.is-error { border-left-color: var(--sev-critical); }
+.data-lab-step.is-paused { border-left-color: var(--sev-medium); }
+.data-lab-step.is-disabled { opacity: .55; border-left-color: var(--text-dim); }
+.data-lab-step.is-disabled .data-lab-step-name { text-decoration: line-through; }
+.data-lab-step-head { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.data-lab-step-num {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 1.4rem; height: 1.4rem; border-radius: 999px;
+  background: var(--bg-elev); border: 1px solid var(--border); font-size: .75rem; color: var(--text-dim);
+}
+.data-lab-step-name { background: none; border: 0; padding: 0; color: var(--text); font: inherit; font-weight: 600; cursor: pointer; text-align: left; }
+.data-lab-step-name:hover, .data-lab-step-name:focus-visible, .data-lab-step-name[aria-pressed='true'] { color: var(--info); text-decoration: underline; }
+.data-lab-step-meta { white-space: nowrap; }
+.data-lab-step-tools { display: flex; gap: .2rem; }
+.data-lab-step-tools .btn { min-width: 1.9rem; }
+.data-lab-step-tools .btn[aria-pressed='true'] { border-color: var(--sev-medium); color: var(--sev-medium); }
+.data-lab-args { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .45rem .6rem; margin-top: .5rem; }
+.data-lab-arg { font-size: .8rem; min-width: 0; }
+.data-lab-arg input:not([type='checkbox']), .data-lab-arg select { width: 100%; min-width: 0; }
+.data-lab-arg-bool { font-size: .82rem; align-self: end; padding-bottom: .3rem; }
+div.data-lab-arg { display: flex; flex-direction: column; gap: .3rem; color: var(--text-dim); grid-column: 1 / -1; }
+.data-lab-toggle { display: flex; gap: .3rem; }
+.data-lab-toggle input { flex: 1; }
+.data-lab-toggle select { width: auto; flex: none; }
+.data-lab-step-error { margin: .5rem 0 0; color: var(--sev-critical); font-size: .85rem; white-space: pre-wrap; word-break: break-word; font-family: var(--mono); }
+.data-lab-bake { border-top: 1px solid var(--border); padding-top: .75rem; }
+
+/* ---------- input / output ---------- */
+.data-lab-io-col { min-width: 0; }
+.data-lab-io { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.data-lab-io textarea { width: 100%; }
+.data-lab-input { min-height: 160px; }
+.data-lab-output { min-height: 240px; white-space: pre; }
+.data-lab-output[wrap='soft'] { white-space: pre-wrap; word-break: break-all; }
+.data-lab-stats { margin: 0; }
+.data-lab-io-head .btn[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+.data-lab-file { border: 1px dashed var(--border); border-radius: var(--radius); padding: .75rem; }
+.data-lab-file p { margin: 0 0 .5rem; }
+
+/* ---------- magic ---------- */
+.data-lab-magic { display: flex; flex-direction: column; gap: .5rem; }
+.data-lab-magic p { margin: 0; }
+.data-lab-magic-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.data-lab-magic-item { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem .7rem; display: flex; flex-direction: column; gap: .3rem; }
+.data-lab-magic-preview { font-size: .8rem; max-height: 6.5em; overflow: hidden; color: var(--text); }
+.data-lab-callout-detail { margin-top: .35rem; font-size: .85rem; }

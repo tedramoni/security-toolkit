@@ -45,7 +45,8 @@ export function Home() {
         <h2>Your data</h2>
         <p className="muted small">
           Everything is stored in this browser's localStorage. Pasted tokens, headers and code are processed locally;
-          only the dependency checker sends package names and versions to the public OSV.dev API.
+          the only network calls are the dependency checker (package names and versions to the public OSV.dev API)
+          and the AI Skill Scanner's optional import of a public GitHub repository.
         </p>
         <p>
           <strong>{threatModels}</strong> threat model{threatModels === 1 ? '' : 's'} · <strong>{reviews}</strong> saved

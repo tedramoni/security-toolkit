@@ -1,0 +1,75 @@
+/* PKI Tools — module-local styles. All classes are prefixed with "pki-". */
+
+.pki-panel .card + .card { margin-top: 0; }
+.pki-tabs .tab { padding: .55rem .8rem; }
+
+.pki-h { margin: 0; font-size: 1.05rem; }
+h2.pki-h { font-size: 1.15rem; }
+.pki-panel h3 { margin: .25rem 0 0; font-size: 1rem; }
+
+.pki-input textarea { min-height: 6rem; }
+.pki-narrow { max-width: 32rem; }
+.pki-tight { gap: .25rem; }
+
+.pki-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; align-items: start; }
+.pki-form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .75rem 1rem; align-items: start; }
+.pki-fieldset { border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem .9rem .9rem; margin: 0; min-width: 0; }
+.pki-fieldset legend { color: var(--text-dim); font-size: .85rem; padding: 0 .3rem; }
+
+.pki-kv { margin: 0; display: grid; gap: .3rem; }
+.pki-kv-row { display: grid; grid-template-columns: 11rem 1fr; gap: .75rem; align-items: baseline; }
+.pki-kv dt { color: var(--text-dim); font-size: .85rem; }
+.pki-kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 640px) { .pki-kv-row { grid-template-columns: 1fr; gap: 0; } }
+
+.pki-rdns { display: inline-flex; flex-wrap: wrap; gap: .2rem .7rem; }
+.pki-break { overflow-wrap: anywhere; }
+.pki-nowrap { white-space: nowrap; }
+.pki-list { margin: 0; padding-left: 1.1rem; }
+.pki-list li + li { margin-top: .15rem; }
+.pki-table-wrap { overflow-x: auto; }
+.pki-err { color: var(--sev-critical); }
+.pki-warn { color: var(--sev-medium); }
+.pki-yes { color: var(--sev-ok); font-weight: 600; }
+.pki-no { color: var(--sev-critical); }
+.pki-matrix td, .pki-matrix th { text-align: center; white-space: nowrap; }
+.pki-matrix th[scope='row'] { text-align: left; }
+
+.pki-pem { max-height: 260px; overflow: auto; white-space: pre-wrap; word-break: break-all; font-size: .8rem; }
+.pki-md { max-height: 520px; overflow: auto; white-space: pre-wrap; font-size: .82rem; }
+.pki-panel pre.codeblock { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.pki-findings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.pki-finding {
+  background: var(--bg-input); border: 1px solid var(--border); border-left-width: 3px;
+  border-radius: 0 var(--radius) var(--radius) 0; padding: .55rem .8rem;
+}
+.pki-finding.sev-critical { border-left-color: var(--sev-critical); }
+.pki-finding.sev-high { border-left-color: var(--sev-high); }
+.pki-finding.sev-medium { border-left-color: var(--sev-medium); }
+.pki-finding.sev-low { border-left-color: var(--sev-low); }
+.pki-finding.sev-info { border-left-color: var(--text-dim); }
+.pki-finding.sev-pass { border-left-color: var(--sev-ok); }
+.pki-finding-title { display: flex; gap: .5rem; align-items: baseline; flex-wrap: wrap; color: var(--text); font-weight: 600; }
+.pki-finding p { margin: .3rem 0 0; font-size: .9rem; }
+.pki-finding .pki-fix { color: var(--text-dim); }
+
+details.pki-details > summary { cursor: pointer; color: var(--text-dim); }
+details.pki-details[open] > summary { margin-bottom: .5rem; }
+
+.pki-asn, .pki-asn ul { list-style: none; margin: 0; padding-left: 1.1rem; font-family: var(--mono); font-size: .8rem; }
+.pki-asn { padding-left: 0; max-height: 560px; overflow: auto; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem; }
+.pki-asn summary { cursor: pointer; }
+.pki-asn-leaf { padding-left: 1rem; }
+.pki-asn-meta { color: var(--text-dim); }
+.pki-asn-tag { color: var(--info); font-weight: 600; }
+.pki-asn-val { overflow-wrap: anywhere; }
+
+.pki-chain { margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: .6rem; }
+.pki-chain-link { border-left: 2px solid var(--border); padding-left: .6rem; }
+
+.pki-block { border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem .8rem; }
+
+.pki-stats { display: flex; flex-wrap: wrap; gap: 1rem; }
+.pki-stat { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem 1rem; min-width: 11rem; }
+.pki-stat-num { font-size: 1.8rem; font-weight: 800; line-height: 1.1; color: var(--accent); }
