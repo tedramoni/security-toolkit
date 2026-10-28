@@ -46,7 +46,8 @@ export function worstSeverity(findings: readonly { severity: Severity }[]): Seve
  * cannot inject markup / break code spans when rendered by a less strict viewer than GitHub.
  */
 export function mdText(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/`/g, '\\`')
+  // Backticks become an entity rather than "\`": a pasted backslash could otherwise cancel the escape.
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/`/g, '&#96;')
 }
 
 export function findingsToMarkdown(title: string, findings: readonly Finding[]): string {
