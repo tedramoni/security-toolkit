@@ -1,0 +1,98 @@
+/* Website Recon — module-local styles. All classes are prefixed with "recon-". */
+
+.recon-panel .card + .card { margin-top: 0; }
+.recon-break { word-break: break-word; overflow-wrap: anywhere; }
+.recon-nowrap { white-space: nowrap; }
+.recon-pre { max-height: 300px; overflow: auto; margin: 0; font-size: .75rem; }
+
+/* Privacy + ethics notes side by side on wide screens */
+.recon-intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.recon-intro .callout { margin: 0; }
+
+/* Scan form */
+.recon-form { padding: .75rem 1rem; }
+.recon-form-row { display: flex; gap: .5rem; align-items: flex-end; flex-wrap: wrap; }
+.recon-form-row > label { flex: 1 1 260px; }
+
+/* Summary strip */
+.recon-strip { display: flex; flex-direction: column; gap: .5rem; padding: .75rem 1rem; }
+.recon-strip-main { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; }
+.recon-strip-title { margin: 0; font-size: 1.2rem; }
+.recon-strip-progress { height: 6px; }
+.recon-strip-actions { gap: .4rem; }
+
+/* Tile grid: span-2 tiles only where two columns fit (container query), so narrow screens never overflow. */
+.recon-grid-wrap { container-type: inline-size; }
+.recon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  grid-auto-flow: dense;
+  gap: .75rem;
+  align-items: start;
+}
+@container (min-width: 560px) {
+  .recon-span-2 { grid-column: span 2; }
+}
+@media (max-width: 700px) {
+  .recon-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.recon-tile {
+  background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: .65rem .8rem; display: flex; flex-direction: column; gap: .4rem; min-width: 0;
+}
+.recon-tile-head { display: flex; align-items: center; gap: .45rem; min-width: 0; }
+.recon-tile-icon { font-size: 1.05rem; line-height: 1; flex: none; }
+.recon-tile-title { margin: 0; font-size: .98rem; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.recon-rerun { padding: 0 .45rem; line-height: 1.4; }
+.recon-tile-src { margin: -.25rem 0 0; font-size: .72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recon-tile-summary .recon-scroll { max-height: 210px; overflow: auto; padding-right: .25rem; }
+
+.recon-msg { background: var(--bg-input); border-left: 3px solid var(--sev-medium); padding: .35rem .6rem; border-radius: 0 var(--radius) var(--radius) 0; }
+.recon-msg-error { border-color: var(--sev-critical); }
+
+/* Compact key/value facts */
+.recon-kv { display: grid; grid-template-columns: minmax(5rem, max-content) minmax(0, 1fr); gap: .15rem .6rem; margin: 0; font-size: .84rem; }
+.recon-kv > div { display: contents; }
+.recon-kv dt { color: var(--text-dim); }
+.recon-kv dd { margin: 0; word-break: break-word; overflow-wrap: anywhere; }
+.recon-clamp { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: .78rem; }
+
+.recon-top { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .2rem; font-size: .82rem; }
+.recon-top li { overflow-wrap: anywhere; }
+.recon-top .badge { font-size: .65rem; }
+
+.recon-preview { margin: 0; display: flex; flex-wrap: wrap; gap: .25rem .6rem; max-height: 3.6em; overflow: hidden; }
+.recon-actions { gap: .4rem; }
+
+/* Toggles: a row of buttons, the open panel takes the full tile width with a capped scroll area */
+.recon-toggles { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: auto; padding-top: .2rem; }
+.recon-toggle-btn { font-size: .78rem; }
+.recon-more { flex-basis: 100%; max-height: 300px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem; background: var(--bg-input); font-size: .85rem; }
+.recon-more[hidden] { display: none; }
+.recon-table { font-size: .8rem; }
+.recon-table td, .recon-table th { padding: .25rem .4rem; vertical-align: top; }
+
+/* Loading skeleton */
+.recon-skeleton { display: flex; flex-direction: column; gap: .4rem; padding: .2rem 0; }
+.recon-skeleton > span { display: block; height: .7rem; border-radius: 4px; background: linear-gradient(90deg, var(--bg-input) 0%, var(--border) 50%, var(--bg-input) 100%); background-size: 200% 100%; animation: recon-shimmer 1.3s linear infinite; }
+.recon-skeleton > span:nth-child(2) { width: 80%; }
+.recon-skeleton > span:nth-child(3) { width: 55%; }
+@keyframes recon-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .recon-skeleton > span { animation: none; } }
+
+.recon-hosts {
+  list-style: none; margin: 0; padding: .25rem 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .1rem 1rem; font-size: .8rem;
+}
+.recon-hosts li { overflow-wrap: anywhere; }
+.recon-list { margin: 0; padding-left: 1.1rem; font-size: .85rem; }
+.recon-tree { margin: .2rem 0 0; padding-left: 1.1rem; font-size: .82rem; }
+.recon-steps { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .3rem; }
+details.recon-raw > summary { cursor: pointer; color: var(--text-dim); font-size: .9rem; }
+details.recon-raw[open] > summary { margin-bottom: .5rem; }
+.recon-raw .recon-pre { max-height: 420px; }
+
+@media (max-width: 480px) {
+  .recon-kv { grid-template-columns: minmax(4.5rem, max-content) minmax(0, 1fr); }
+}

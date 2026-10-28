@@ -17,12 +17,14 @@ A browser-only security toolbox for developers and AppSec teams: threat modeling
 | 🧪 **Data Lab** | Recipe workbench: chain encoding, crypto (AES, HMAC, PBKDF2), compression, hashing, IOC extraction and defanging operations; Magic auto-detection; shareable recipes |
 | 🔐 **PKI Tools** | Certificate / chain / CSR / CRL decoder and linter, CSR and key generator, key matcher, format converter, OCSP helper, key ceremony planner, RFC 3647 CPS outline, all in-browser |
 | 🤖 **AI Skill Scanner** | Static scanner for AI agent skills (`SKILL.md`), agent instruction files, MCP configs and Claude Code hooks: prompt injection, exfiltration, hidden Unicode / ASCII smuggling, dangerous commands; SARIF export. Rule categories inspired by [NVIDIA SkillSpector](https://github.com/NVIDIA/SkillSpector) |
+| 🛰️ **Website Recon** | Passive domain recon as a tile dashboard: DNS records, DNSSEC, CAA, SPF (with lookup counting), DMARC, DKIM, MTA-STS/TLS-RPT/BIMI, certificate-transparency subdomains with takeover hints, RDAP, IP ownership, Wayback history. Optional self-hosted CORS proxy (Cloudflare Worker template included) unlocks header, robots.txt and security.txt checks |
 
 ### Privacy
 
 - All processing happens client-side. Nothing is sent anywhere, **except**:
   - the dependency checker, which sends package names and versions to the public OSV.dev API;
-  - the AI Skill Scanner's optional GitHub import, which downloads the public repository you name from the GitHub API.
+  - the AI Skill Scanner's optional GitHub import, which downloads the public repository you name from the GitHub API;
+  - Website Recon, which sends the domain you scan to public DNS-over-HTTPS resolvers (Google, Cloudflare), crt.sh, rdap.org and archive.org, plus your own proxy if you configure one.
 - Data is kept in `localStorage` under keys prefixed with `scp:`. Use **Export backup** on the home page to save it or move it to another browser.
 
 ## Development
@@ -40,13 +42,23 @@ npm run test:e2e     # smoke tests against the production build
 Structure:
 
 ```
-src/app/        shell: routing (HashRouter), layout, home
+src/app/        shell: routing, layout, home, SEO metadata (seo.ts) and build-time HTML (seoHtml.ts)
 src/lib/        shared helpers: storage, downloads, markdown
 src/modules/    one folder per tool (lazy-loaded)
-e2e/            Playwright smoke tests
+scripts/        generate-images.mjs renders the social preview image and app icons into public/
+e2e/            Playwright smoke, flow and SEO tests
 ```
 
-To add a tool, create `src/modules/<name>/index.tsx` with a default-exported component and register it in [src/app/modules.ts](src/app/modules.ts).
+To add a tool, create `src/modules/<name>/index.tsx` with a default-exported component, register it in [src/app/modules.ts](src/app/modules.ts), and add its title, description and icon to [src/app/seo.ts](src/app/seo.ts). A unit test fails if the two lists disagree.
+
+### SEO
+
+Each tool has a real URL (`/security-toolkit/pki/`). At build time, a Vite plugin writes one static `index.html` per tool with these contents:
+
+- its own title, description, canonical URL, Open Graph / Twitter tags and JSON-LD;
+- crawlable content that the app replaces when it loads.
+
+The plugin also writes `sitemap.xml` and a `404.html` fallback, so deep links keep working. Old `#/` links redirect to the new URLs.
 
 ## Deployment
 

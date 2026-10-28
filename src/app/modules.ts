@@ -58,4 +58,11 @@ export const MODULES: ModuleDef[] = [
     description: 'Scan AI agent skills, MCP configs and agent hooks for prompt injection, exfiltration and dangerous commands.',
     Component: lazy(() => import('../modules/skill-scanner/index.tsx')),
   },
+  {
+    path: '/recon',
+    title: 'Website Recon',
+    icon: '🛰️',
+    description: 'Passive recon of a domain: DNS and email security records, certificate transparency, RDAP, HSTS preload, archive history.',
+    Component: lazy(() => import('../modules/recon/index.tsx')),
+  },
 ]

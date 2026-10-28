@@ -32,7 +32,7 @@ export function Home() {
 
       <div className="grid">
         {MODULES.map((m) => (
-          <Link key={m.path} to={m.path} className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link key={m.path} to={`${m.path}/`} className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h2>
               <span aria-hidden>{m.icon}</span> {m.title}
             </h2>
@@ -45,8 +45,9 @@ export function Home() {
         <h2>Your data</h2>
         <p className="muted small">
           Everything is stored in this browser's localStorage. Pasted tokens, headers and code are processed locally;
-          the only network calls are the dependency checker (package names and versions to the public OSV.dev API)
-          and the AI Skill Scanner's optional import of a public GitHub repository.
+          the only network calls are the dependency checker (package names and versions to the public OSV.dev API),
+          the AI Skill Scanner's optional import of a public GitHub repository, and Website Recon (the scanned domain
+          to public DNS resolvers, crt.sh, rdap.org and archive.org).
         </p>
         <p>
           <strong>{threatModels}</strong> threat model{threatModels === 1 ? '' : 's'} · <strong>{reviews}</strong> saved

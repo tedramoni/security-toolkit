@@ -1,0 +1,268 @@
+/**
+ * Security Toolkit — Website Recon: minimal read-only CORS proxy for Cloudflare Workers.
+ *
+ * What it does: GET <worker>?url=<http(s) URL>  →  JSON { url, finalUrl, status, redirects, headers, body, truncated }
+ *
+ * Safety properties
+ *  - GET only, no request body; nothing from the caller's request (cookies, Authorization, other headers) is forwarded.
+ *  - Only answers browsers on ALLOWED_ORIGIN (environment variable, e.g. https://tedramoni.github.io). The Origin
+ *    check stops other websites from using your proxy from their visitors' browsers; it is NOT authentication
+ *    (curl can fake Origin), so keep the URL to yourself and watch the usage dashboard.
+ *  - SSRF guard on the target and on every redirect hop: http/https only, ports 80/443/8080/8443, no credentials,
+ *    no literal private / loopback / link-local / metadata / multicast IPs (IPv4 and IPv6, incl. IPv4-mapped/NAT64),
+ *    no localhost / *.local / *.internal / single-label names / wildcard-DNS services.
+ *    Limitation: a public hostname may still RESOLVE to a private address (DNS rebinding). Workers cannot resolve DNS
+ *    before fetch(); Cloudflare's network does not route to your private LAN, but do not deploy this code on a
+ *    server inside a private network.
+ *  - Redirects followed manually (max 5), 10 s timeout per hop, response body capped at 1 MiB.
+ *  - Set-Cookie is never set on the proxy's own response; the target's cookies are reported with their VALUES
+ *    REDACTED (attributes only, for the cookie security check).
+ *  - Responses: Cache-Control: no-store, X-Content-Type-Options: nosniff, Content-Type: application/json.
+ *
+ * Deploy (free plan is enough):
+ *   1. npm create cloudflare@latest recon-proxy   (choose "Hello World" Worker, JavaScript)
+ *   2. Replace src/index.js with this file.
+ *   3. In wrangler.toml / wrangler.jsonc add:   [vars]  ALLOWED_ORIGIN = "https://tedramoni.github.io"
+ *      (the exact origin of the page you use the toolkit from: scheme + host [+ port], no path, no trailing slash)
+ *   4. npx wrangler deploy  → paste the https://recon-proxy.<you>.workers.dev URL in the Website Recon settings.
+ */
+
+const MAX_BYTES = 1024 * 1024
+const TIMEOUT_MS = 10000
+const MAX_REDIRECTS = 5
+const REDIRECT_CODES = [301, 302, 303, 307, 308]
+const ALLOWED_PORTS = ['', '80', '443', '8080', '8443']
+
+export default {
+  async fetch(request, env) {
+    const allowed = (env.ALLOWED_ORIGIN || '').trim()
+    const cors = {
+      'Access-Control-Allow-Origin': allowed || 'null',
+      'Access-Control-Allow-Methods': 'GET',
+      Vary: 'Origin',
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Type': 'application/json; charset=utf-8',
+    }
+    if (!allowed) return json({ error: 'ALLOWED_ORIGIN is not configured on the Worker' }, 500, cors)
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors, 'Access-Control-Max-Age': '86400' } })
+    if (request.method !== 'GET') return json({ error: 'Only GET is allowed' }, 405, cors)
+    if (request.headers.get('Origin') !== allowed) return json({ error: 'Origin not allowed' }, 403, cors)
+
+    const target = new URL(request.url).searchParams.get('url')
+    if (!target) return json({ error: 'Missing ?url= parameter' }, 400, cors)
+
+    const redirects = []
+    let current = target
+    for (let hop = 0; ; hop++) {
+      const check = checkProxyTarget(current)
+      if (!check.ok) return json({ error: check.reason, redirects }, 400, cors)
+      let res
+      try {
+        res = await fetch(check.url.href, {
+          method: 'GET',
+          redirect: 'manual',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (compatible; SecurityToolkit-Recon/1.0; passive check)',
+            Accept: 'text/html,application/xhtml+xml,text/plain,application/json;q=0.9,*/*;q=0.8',
+          },
+          signal: AbortSignal.timeout(TIMEOUT_MS),
+        })
+      } catch (e) {
+        return json({ error: `Fetch failed: ${String((e && e.message) || e).slice(0, 200)}`, redirects }, 502, cors)
+      }
+      const location = res.headers.get('location')
+      if (REDIRECT_CODES.includes(res.status) && location) {
+        if (res.body) await res.body.cancel()
+        let next
+        try {
+          next = new URL(location, check.url).href
+        } catch {
+          return json({ error: 'Invalid redirect Location', redirects }, 502, cors)
+        }
+        redirects.push({ url: check.url.href, status: res.status, location: next })
+        if (hop >= MAX_REDIRECTS) return json({ error: `More than ${MAX_REDIRECTS} redirects`, redirects }, 502, cors)
+        current = next
+        continue
+      }
+      const { text, truncated } = await readCapped(res, MAX_BYTES)
+      const headers = []
+      for (const [name, value] of res.headers) {
+        if (name.toLowerCase() !== 'set-cookie') headers.push([name, value])
+      }
+      const cookies = typeof res.headers.getSetCookie === 'function' ? res.headers.getSetCookie() : []
+      for (const c of cookies) headers.push(['set-cookie', redactCookie(c)])
+      return json({ url: target, finalUrl: check.url.href, status: res.status, redirects, headers, body: text, truncated }, 200, cors)
+    }
+  },
+}
+
+function json(obj, status, headers) {
+  return new Response(JSON.stringify(obj), { status, headers })
+}
+
+/** "name=secret; Path=/; Secure" → "name=<redacted>; Path=/; Secure" */
+function redactCookie(c) {
+  const semi = c.indexOf(';')
+  const pair = semi === -1 ? c : c.slice(0, semi)
+  const eq = pair.indexOf('=')
+  const name = eq === -1 ? '' : pair.slice(0, eq).trim()
+  return `${name}=<redacted>${semi === -1 ? '' : c.slice(semi)}`.slice(0, 1024)
+}
+
+async function readCapped(res, max) {
+  if (!res.body) return { text: '', truncated: false }
+  const reader = res.body.getReader()
+  const chunks = []
+  let size = 0
+  let truncated = false
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    if (size + value.byteLength > max) {
+      chunks.push(value.subarray(0, max - size))
+      size = max
+      truncated = true
+      await reader.cancel()
+      break
+    }
+    chunks.push(value)
+    size += value.byteLength
+  }
+  const all = new Uint8Array(size)
+  let o = 0
+  for (const c of chunks) {
+    all.set(c, o)
+    o += c.byteLength
+  }
+  return { text: new TextDecoder('utf-8', { fatal: false }).decode(all), truncated }
+}
+
+/* ---- SSRF guard (same logic as src/modules/recon/ssrf.ts — keep in sync) ---- */
+
+function parseIPv4(s) {
+  const parts = s.split('.')
+  if (parts.length !== 4) return undefined
+  const out = []
+  for (const p of parts) {
+    if (!/^\d{1,3}$/.test(p)) return undefined
+    if (p.length > 1 && p[0] === '0') return undefined
+    const n = Number(p)
+    if (n > 255) return undefined
+    out.push(n)
+  }
+  return out
+}
+
+function parseIPv6(input) {
+  let s = input
+  if (s.startsWith('[') && s.endsWith(']')) s = s.slice(1, -1)
+  const pct = s.indexOf('%')
+  if (pct !== -1) s = s.slice(0, pct)
+  if (s.length < 2 || s.length > 45 || !/^[0-9a-fA-F:.]+$/.test(s)) return undefined
+  const dbl = s.indexOf('::')
+  if (dbl !== -1 && s.indexOf('::', dbl + 1) !== -1) return undefined
+  const parseSide = (side) => {
+    if (side === '') return []
+    const groups = side.split(':')
+    const words = []
+    for (let i = 0; i < groups.length; i++) {
+      const g = groups[i]
+      if (i === groups.length - 1 && g.includes('.')) {
+        const v4 = parseIPv4(g)
+        if (!v4) return undefined
+        words.push((v4[0] << 8) | v4[1], (v4[2] << 8) | v4[3])
+        continue
+      }
+      if (!/^[0-9a-fA-F]{1,4}$/.test(g)) return undefined
+      words.push(parseInt(g, 16))
+    }
+    return words
+  }
+  if (dbl === -1) {
+    const w = parseSide(s)
+    return w && w.length === 8 ? w : undefined
+  }
+  const head = parseSide(s.slice(0, dbl))
+  const tail = parseSide(s.slice(dbl + 2))
+  if (!head || !tail || head.length + tail.length > 7) return undefined
+  return [...head, ...new Array(8 - head.length - tail.length).fill(0), ...tail]
+}
+
+function blockedIPv4Reason(o) {
+  const [a, b, c] = o
+  if (a === 0) return '"this network" (0.0.0.0/8)'
+  if (a === 10) return 'private network (10.0.0.0/8)'
+  if (a === 100 && b >= 64 && b <= 127) return 'carrier-grade NAT (100.64.0.0/10)'
+  if (a === 127) return 'loopback (127.0.0.0/8)'
+  if (a === 169 && b === 254) return 'link-local / cloud metadata (169.254.0.0/16)'
+  if (a === 172 && b >= 16 && b <= 31) return 'private network (172.16.0.0/12)'
+  if (a === 192 && b === 0 && c === 0) return 'IETF protocol assignments (192.0.0.0/24)'
+  if (a === 192 && b === 0 && c === 2) return 'documentation range (192.0.2.0/24)'
+  if (a === 192 && b === 88 && c === 99) return '6to4 relay anycast (192.88.99.0/24)'
+  if (a === 192 && b === 168) return 'private network (192.168.0.0/16)'
+  if (a === 198 && (b === 18 || b === 19)) return 'benchmarking range (198.18.0.0/15)'
+  if (a === 198 && b === 51 && c === 100) return 'documentation range (198.51.100.0/24)'
+  if (a === 203 && b === 0 && c === 113) return 'documentation range (203.0.113.0/24)'
+  if (a >= 224 && a <= 239) return 'multicast (224.0.0.0/4)'
+  if (a >= 240) return 'reserved / broadcast (240.0.0.0/4)'
+  return undefined
+}
+
+function blockedIPv6Reason(w) {
+  const embedded = (hi, lo) => blockedIPv4Reason([hi >> 8, hi & 0xff, lo >> 8, lo & 0xff])
+  if (w.every((x) => x === 0)) return 'unspecified address (::)'
+  if (w.slice(0, 7).every((x) => x === 0) && w[7] === 1) return 'loopback (::1)'
+  if (w.slice(0, 5).every((x) => x === 0) && (w[5] === 0xffff || w[5] === 0)) {
+    return embedded(w[6], w[7]) || (w[5] === 0 ? 'deprecated IPv4-compatible address (::/96)' : undefined)
+  }
+  if (w.slice(0, 4).every((x) => x === 0) && w[4] === 0xffff && w[5] === 0) return embedded(w[6], w[7])
+  if (w[0] === 0x64 && w[1] === 0xff9b) return w[2] === 1 ? 'local-use NAT64 (64:ff9b:1::/48)' : embedded(w[6], w[7])
+  if (w[0] === 0x100 && w[1] === 0 && w[2] === 0 && w[3] === 0) return 'discard-only prefix (100::/64)'
+  if (w[0] === 0x2001 && w[1] === 0xdb8) return 'documentation range (2001:db8::/32)'
+  if (w[0] === 0x2001 && w[1] === 0) return 'Teredo tunnel (2001::/32)'
+  if (w[0] === 0x2002) return embedded(w[1], w[2])
+  if ((w[0] & 0xfe00) === 0xfc00) return 'unique local address (fc00::/7)'
+  if ((w[0] & 0xffc0) === 0xfe80) return 'link-local (fe80::/10)'
+  if ((w[0] & 0xffc0) === 0xfec0) return 'deprecated site-local (fec0::/10)'
+  if ((w[0] & 0xff00) === 0xff00) return 'multicast (ff00::/8)'
+  return undefined
+}
+
+const BLOCKED_SUFFIXES = ['localhost', 'local', 'internal', 'intranet', 'corp', 'lan', 'home', 'home.arpa', 'test', 'invalid', 'example', 'onion', 'arpa', 'nip.io', 'sslip.io', 'xip.io', 'localtest.me', 'lvh.me']
+const BLOCKED_NAMES = ['metadata', 'instance-data', 'metadata.google.internal', 'metadata.azure.internal']
+
+function checkHost(hostname) {
+  const h = hostname.toLowerCase().replace(/\.$/, '')
+  if (h.startsWith('[') || h.includes(':')) {
+    const w = parseIPv6(h)
+    if (!w) return 'invalid IPv6 address'
+    return blockedIPv6Reason(w)
+  }
+  const v4 = parseIPv4(h)
+  if (v4) return blockedIPv4Reason(v4)
+  if (/^[0-9.]+$/.test(h) || /^0x[0-9a-f]+$/.test(h)) return 'non-canonical numeric host'
+  if (h === '') return 'empty host'
+  if (!h.includes('.')) return 'single-label (intranet) host name'
+  if (BLOCKED_NAMES.includes(h)) return 'cloud metadata endpoint'
+  for (const s of BLOCKED_SUFFIXES) {
+    if (h === s || h.endsWith('.' + s)) return `special-use / internal name (.${s})`
+  }
+  return undefined
+}
+
+function checkProxyTarget(raw) {
+  if (raw.length > 2048) return { ok: false, reason: 'URL too long' }
+  let url
+  try {
+    url = new URL(raw)
+  } catch {
+    return { ok: false, reason: 'invalid URL' }
+  }
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') return { ok: false, reason: 'only http and https URLs are allowed' }
+  if (url.username || url.password) return { ok: false, reason: 'credentials in URL are not allowed' }
+  if (!ALLOWED_PORTS.includes(url.port)) return { ok: false, reason: `port ${url.port} is not allowed` }
+  const blocked = checkHost(url.hostname)
+  if (blocked) return { ok: false, reason: `blocked host: ${blocked}` }
+  return { ok: true, url }
+}

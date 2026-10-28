@@ -1,0 +1,229 @@
+{
+  "handle" : "192.134.4.0 - 192.134.7.255",
+  "startAddress" : "192.134.4.0",
+  "endAddress" : "192.134.7.255",
+  "ipVersion" : "v4",
+  "name" : "NIC-FR-SITES-SQY-TH3",
+  "type" : "LEGACY",
+  "country" : "FR",
+  "parentHandle" : "192.134.0.0 - 192.134.7.255",
+  "cidr0_cidrs" : [ {
+    "v4prefix" : "192.134.4.0",
+    "length" : 22
+  } ],
+  "status" : [ "active" ],
+  "entities" : [ {
+    "handle" : "FR-NIC-MNT",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "FR-NIC-MNT" ], [ "kind", { }, "text", "individual" ], [ "org", { }, "text", "ORG-AFpl1-RIPE" ] ] ],
+    "roles" : [ "registrant" ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "self",
+      "href" : "https://rdap.db.ripe.net/entity/FR-NIC-MNT"
+    }, {
+      "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+      "rel" : "copyright",
+      "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+    } ],
+    "objectClassName" : "entity"
+  }, {
+    "handle" : "JP-RIPE",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "Jean-Philippe Pick" ], [ "kind", { }, "text", "individual" ], [ "adr", {
+      "label" : "AFNIC\nhttp://www.nic.fr/ for more information"
+    }, "text", [ "", "", "", "", "", "", "" ] ], [ "tel", {
+      "type" : "voice"
+    }, "text", "+33 1 39 30 83 00" ] ] ],
+    "roles" : [ "administrative" ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "self",
+      "href" : "https://rdap.db.ripe.net/entity/JP-RIPE"
+    }, {
+      "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+      "rel" : "copyright",
+      "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+    } ],
+    "objectClassName" : "entity"
+  }, {
+    "handle" : "NFC1-RIPE",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "NIC France Contact" ], [ "kind", { }, "text", "group" ], [ "adr", {
+      "label" : "AFNIC\n7, avenue du 8 mai 1945\n78280 Guyancourt\nFR"
+    }, "text", [ "", "", "", "", "", "", "" ] ], [ "tel", {
+      "type" : "voice"
+    }, "text", "+33 1 39 30 83 00" ], [ "tel", {
+      "type" : "fax"
+    }, "text", "+33 1 39 30 83 01" ], [ "email", {
+      "type" : "abuse"
+    }, "text", "abuse@nic.fr" ], [ "org", { }, "text", "ORG-AFpl1-RIPE" ] ] ],
+    "roles" : [ "technical" ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "self",
+      "href" : "https://rdap.db.ripe.net/entity/NFC1-RIPE"
+    }, {
+      "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+      "rel" : "copyright",
+      "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+    } ],
+    "objectClassName" : "entity"
+  }, {
+    "handle" : "ORG-AFpl1-RIPE",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "AFNIC (Association Francaise pour le Nommage Internet en Cooperation)" ], [ "kind", { }, "text", "org" ], [ "adr", {
+      "label" : "7, avenue du 8 mai 1945\n78280\nGuyancourt\nFRANCE"
+    }, "text", [ "", "", "", "", "", "", "" ] ], [ "tel", {
+      "type" : "voice"
+    }, "text", "+33139308300" ], [ "tel", {
+      "type" : "fax"
+    }, "text", "+33139308301" ] ] ],
+    "roles" : [ "registrant" ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "self",
+      "href" : "https://rdap.db.ripe.net/entity/ORG-AFpl1-RIPE"
+    }, {
+      "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+      "rel" : "copyright",
+      "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+    } ],
+    "objectClassName" : "entity"
+  }, {
+    "handle" : "AR15318-RIPE",
+    "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "Abuse-C Role" ], [ "kind", { }, "text", "group" ], [ "adr", {
+      "label" : "AFNIC / NIC-France\n7, avenue du 8 mai 1945\n78280\nGuyancourt\nFRANCE"
+    }, "text", [ "", "", "", "", "", "", "" ] ], [ "email", {
+      "type" : "abuse"
+    }, "text", "abuse@nic.fr" ] ] ],
+    "roles" : [ "abuse" ],
+    "entities" : [ {
+      "handle" : "FR-NIC-MNT",
+      "vcardArray" : [ "vcard", [ [ "version", { }, "text", "4.0" ], [ "fn", { }, "text", "FR-NIC-MNT" ], [ "kind", { }, "text", "individual" ], [ "org", { }, "text", "ORG-AFpl1-RIPE" ] ] ],
+      "roles" : [ "registrant" ],
+      "links" : [ {
+        "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+        "rel" : "self",
+        "href" : "https://rdap.db.ripe.net/entity/FR-NIC-MNT"
+      }, {
+        "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+        "rel" : "copyright",
+        "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+      } ],
+      "objectClassName" : "entity"
+    } ],
+    "objectClassName" : "entity"
+  } ],
+  "remarks" : [ {
+    "description" : [ "AFNIC" ]
+  } ],
+  "links" : [ {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-up",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-up/192.134.4.0%20-%20192.134.7.255",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-up rdap-active",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-up/192.134.4.0%20-%20192.134.7.255?status=active",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-down",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-down/192.134.4.0%20-%20192.134.7.255",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-top",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-top/192.134.4.0%20-%20192.134.7.255",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-top rdap-active",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-top/192.134.4.0%20-%20192.134.7.255?status=active",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "rdap-bottom",
+    "href" : "https://rdap.db.ripe.net/ips/rirSearch1/rdap-bottom/192.134.4.0%20-%20192.134.7.255",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "rel" : "self",
+    "href" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+    "type" : "application/rdap+json"
+  }, {
+    "value" : "http://www.ripe.net/data-tools/support/documentation/terms",
+    "rel" : "copyright",
+    "href" : "http://www.ripe.net/data-tools/support/documentation/terms"
+  } ],
+  "events" : [ {
+    "eventAction" : "registration",
+    "eventDate" : "2004-11-16T15:54:10Z"
+  }, {
+    "eventAction" : "last changed",
+    "eventDate" : "2019-12-04T13:16:47Z"
+  } ],
+  "rdapConformance" : [ "geofeed1", "rirSearch1", "ips", "cidr0", "rdap_level_0", "nro_rdap_profile_0", "redacted" ],
+  "notices" : [ {
+    "title" : "Filtered",
+    "description" : [ "This output has been filtered." ]
+  }, {
+    "title" : "Whois Inaccuracy Reporting",
+    "description" : [ "If you see inaccuracies in the results, please visit:" ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "inaccuracy-report",
+      "href" : "https://www.ripe.net/contact-form?topic=ripe_dbm&show_form=true",
+      "type" : "text/html"
+    } ]
+  }, {
+    "title" : "Source",
+    "description" : [ "Objects returned came from source", "RIPE" ]
+  }, {
+    "title" : "Terms and Conditions",
+    "description" : [ "This is the RIPE Database query service. The objects are in RDAP format." ],
+    "links" : [ {
+      "value" : "https://rdap.db.ripe.net/ip/192.134.5.37",
+      "rel" : "terms-of-service",
+      "href" : "http://www.ripe.net/db/support/db-terms-conditions.pdf",
+      "type" : "application/pdf"
+    } ]
+  } ],
+  "port43" : "whois.ripe.net",
+  "objectClassName" : "ip network",
+  "redacted" : [ {
+    "name" : {
+      "description" : "Personal e-mail information"
+    },
+    "reason" : {
+      "description" : "Personal data"
+    },
+    "prePath" : "$.entities[?(@.handle=='JP-RIPE')].vcardArray[1][?(@[0]=='e-mail')]",
+    "method" : "removal"
+  }, {
+    "name" : {
+      "description" : "Personal e-mail information"
+    },
+    "reason" : {
+      "description" : "Personal data"
+    },
+    "prePath" : "$.entities[?(@.handle=='NFC1-RIPE')].vcardArray[1][?(@[0]=='e-mail')]",
+    "method" : "removal"
+  }, {
+    "name" : {
+      "description" : "Personal e-mail information"
+    },
+    "reason" : {
+      "description" : "Personal data"
+    },
+    "prePath" : "$.entities[?(@.handle=='ORG-AFpl1-RIPE')].vcardArray[1][?(@[0]=='e-mail')]",
+    "method" : "removal"
+  }, {
+    "name" : {
+      "description" : "Personal e-mail information"
+    },
+    "reason" : {
+      "description" : "Personal data"
+    },
+    "prePath" : "$.entities[?(@.handle=='AR15318-RIPE')].vcardArray[1][?(@[0]=='e-mail')]",
+    "method" : "removal"
+  } ]
+}
