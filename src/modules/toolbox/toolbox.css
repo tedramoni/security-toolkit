@@ -1,0 +1,51 @@
+/* Dev Toolbox — module-local styles. All classes are prefixed with "toolbox-". */
+
+/* Panels lay cards out with .stack gaps; cancel the global sibling margin to avoid double spacing / misalignment. */
+.toolbox-panel .card + .card { margin-top: 0; }
+
+.toolbox-findings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.toolbox-finding {
+  background: var(--bg-input); border: 1px solid var(--border); border-left-width: 3px;
+  border-radius: 0 var(--radius) var(--radius) 0; padding: .55rem .8rem;
+}
+.toolbox-finding.sev-critical { border-left-color: var(--sev-critical); }
+.toolbox-finding.sev-high { border-left-color: var(--sev-high); }
+.toolbox-finding.sev-medium { border-left-color: var(--sev-medium); }
+.toolbox-finding.sev-low { border-left-color: var(--sev-low); }
+.toolbox-finding.sev-info { border-left-color: var(--text-dim); }
+.toolbox-finding.sev-pass { border-left-color: var(--sev-ok); }
+.toolbox-finding-title { display: flex; gap: .5rem; align-items: baseline; flex-wrap: wrap; color: var(--text); font-weight: 600; }
+.toolbox-finding p { color: var(--text); margin: .3rem 0 0; font-size: .9rem; }
+.toolbox-finding .toolbox-fix { color: var(--text-dim); }
+.toolbox-finding .toolbox-fix code { color: var(--text); }
+
+.toolbox-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+.toolbox-json { max-height: 420px; overflow: auto; }
+.toolbox-json-label { margin-bottom: .4rem; }
+
+.toolbox-grade {
+  font-size: 2.6rem; font-weight: 800; line-height: 1; min-width: 4.5rem; text-align: center;
+  border: 2px solid currentColor; border-radius: var(--radius); padding: .4rem .6rem;
+}
+.toolbox-grade-a { color: var(--sev-ok); }
+.toolbox-grade-b { color: var(--sev-low); }
+.toolbox-grade-c { color: var(--sev-medium); }
+.toolbox-grade-d { color: var(--sev-high); }
+.toolbox-grade-f { color: var(--sev-critical); }
+
+.toolbox-ops { display: flex; flex-direction: column; gap: .4rem; }
+.toolbox-ops-group { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+.toolbox-ops-group > .toolbox-ops-label { width: 5.5rem; color: var(--text-dim); font-size: .85rem; }
+.toolbox-op[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+
+.toolbox-builder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .75rem; }
+.toolbox-fieldset { border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem .9rem; margin: 0; }
+.toolbox-fieldset legend { color: var(--text-dim); font-size: .85rem; padding: 0 .3rem; }
+
+.toolbox-yes { color: var(--sev-ok); }
+.toolbox-no { color: var(--sev-critical); }
+.toolbox-nowrap { white-space: nowrap; }
+.toolbox-break { word-break: break-all; }
+.toolbox-table-wrap { overflow-x: auto; }
+details.toolbox-details > summary { cursor: pointer; color: var(--text-dim); }
+details.toolbox-details[open] > summary { margin-bottom: .5rem; }

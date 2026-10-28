@@ -1,0 +1,69 @@
+/* Review Checklists module — all classes prefixed with "checklists-" */
+
+.checklists-card-meta { display: flex; gap: .75rem; flex-wrap: wrap; font-size: .85rem; color: var(--text-dim); margin: .25rem 0 .75rem; }
+.checklists-card { display: flex; flex-direction: column; }
+.checklists-card p { flex: 1; }
+.checklists-card[data-selected='true'] { border-color: var(--accent); }
+
+.checklists-stacks { display: flex; flex-wrap: wrap; gap: .35rem 1rem; border: none; padding: 0; margin: 0; }
+.checklists-stacks legend { font-size: .9rem; color: var(--text-dim); margin-bottom: .3rem; padding: 0; }
+
+.checklists-summary { display: grid; gap: .5rem; }
+.checklists-counts { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+
+.checklists-toolbar { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: end; }
+@media (max-width: 700px) { .checklists-toolbar { grid-template-columns: 1fr; } }
+
+.checklists-category { padding: 0; overflow: hidden; }
+.checklists-category-head {
+  width: 100%; display: flex; align-items: center; gap: .75rem; background: none; border: none; color: var(--text);
+  font: inherit; text-align: left; padding: .8rem 1.1rem; cursor: pointer;
+}
+.checklists-category-head:hover { background: var(--bg-input); }
+.checklists-category-heading { margin: 0; font-size: 1rem; }
+.checklists-category-title { flex: 1; font-weight: 600; }
+.checklists-chevron { display: inline-block; width: 1em; transition: transform .15s; color: var(--text-dim); }
+.checklists-category-head[aria-expanded='true'] .checklists-chevron { transform: rotate(90deg); }
+.checklists-category-body { border-top: 1px solid var(--border); }
+.checklists-category-desc { padding: .6rem 1.1rem 0; margin: 0; }
+
+.checklists-item { padding: .75rem 1.1rem; border-bottom: 1px solid var(--border); display: grid; gap: .5rem; }
+.checklists-item:last-child { border-bottom: none; }
+.checklists-item[data-status='fail'] { box-shadow: inset 3px 0 0 var(--sev-critical); }
+.checklists-item[data-status='pass'] { box-shadow: inset 3px 0 0 var(--sev-ok); }
+.checklists-item[data-status='na'] { box-shadow: inset 3px 0 0 var(--text-dim); }
+.checklists-item-main { display: grid; grid-template-columns: 1fr auto; gap: .75rem; align-items: start; }
+@media (max-width: 800px) { .checklists-item-main { grid-template-columns: 1fr; } }
+.checklists-item-text { margin: 0; }
+.checklists-item-refs { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: .3rem; }
+.checklists-ref { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); border: 1px solid var(--border); border-radius: 4px; padding: 0 .3rem; text-decoration: none; }
+a.checklists-ref:hover { color: var(--info); border-color: var(--info); }
+.checklists-detail { background: var(--bg-input); border-radius: var(--radius); padding: .6rem .8rem; font-size: .9rem; }
+.checklists-detail p { margin: 0 0 .5rem; }
+.checklists-note textarea { min-height: 60px; font-family: inherit; font-size: .9rem; }
+
+/* Segmented status control built from real radio inputs */
+.checklists-status { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 0; padding: 0; }
+.checklists-status legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.checklists-status label { flex-direction: row; gap: 0; color: var(--text-dim); font-size: .82rem; cursor: pointer; position: relative; }
+.checklists-status input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.checklists-status span { padding: .3rem .65rem; border-left: 1px solid var(--border); white-space: nowrap; }
+.checklists-status label:first-of-type span { border-left: none; }
+.checklists-status label:hover span { color: var(--text); background: var(--bg-input); }
+.checklists-status input:focus-visible + span { outline: 2px solid var(--info); outline-offset: -2px; }
+.checklists-status input:checked + span { color: #fff; font-weight: 600; }
+.checklists-status input[value='pass']:checked + span { background: var(--accent-dim); }
+.checklists-status input[value='fail']:checked + span { background: #7f1d1d; }
+.checklists-status input[value='na']:checked + span { background: #334155; }
+.checklists-status input[value='unchecked']:checked + span { background: var(--bg-input); color: var(--text); }
+
+.checklists-review-title { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.checklists-progress-cell { min-width: 120px; }
+.checklists-hidden-file { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.checklists-file-label { display: inline-block; flex-direction: row; color: var(--text); }
+.checklists-file-label:focus-within { outline: 2px solid var(--info); outline-offset: 2px; border-radius: var(--radius); }
+.checklists-preview { max-height: 360px; overflow: auto; }
+
+/* Neutralise the global ".card + .card" spacing inside grids/stacks that already use gap */
+.grid > .checklists-card + .checklists-card,
+.stack > .checklists-category + .checklists-category { margin-top: 0; }

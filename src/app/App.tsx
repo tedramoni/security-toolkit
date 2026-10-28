@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from './ErrorBoundary.tsx'
 import { Layout } from './Layout.tsx'
 import { Home } from './Home.tsx'
 import { MODULES } from './modules.ts'
@@ -15,9 +16,11 @@ export default function App() {
               key={path}
               path={`${path}/*`}
               element={
-                <Suspense fallback={<p className="muted">Loading…</p>}>
-                  <Component />
-                </Suspense>
+                <ErrorBoundary key={path}>
+                  <Suspense fallback={<p className="muted">Loading…</p>}>
+                    <Component />
+                  </Suspense>
+                </ErrorBoundary>
               }
             />
           ))}

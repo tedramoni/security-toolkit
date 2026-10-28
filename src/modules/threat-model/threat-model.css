@@ -1,0 +1,40 @@
+/* Threat-model module styles. All classes are prefixed tm- to avoid collisions. */
+.tm-flush { margin: 0; }
+.tm-mt { margin-top: .75rem; }
+.tm-grow { flex: 1; min-width: 200px; }
+.tm-align-end { align-self: end; }
+.tm-nowrap { flex-wrap: nowrap; }
+.tm-scroll { overflow-x: auto; }
+.tm-card-title { margin-bottom: .2rem; }
+.tm-card-title a { color: var(--text); text-decoration: none; }
+.tm-card-title a:hover { text-decoration: underline; }
+a.tm-linkbtn { text-decoration: none; display: inline-block; }
+
+.tm-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.tm-form-grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.tm-fieldset { border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem .75rem .75rem; margin: 0; }
+.tm-tags { display: grid; gap: .4rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+textarea.tm-prose { font-family: inherit; font-size: .95rem; }
+textarea.tm-short { min-height: 110px; }
+.tm-prose-text { white-space: pre-wrap; margin: 0; }
+
+.tm-assumptions { margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: .4rem; }
+.tm-assumptions li { flex-wrap: nowrap; }
+
+.tm-errors { margin: .5rem 0 0; padding-left: 1.2rem; max-height: 260px; overflow-y: auto; }
+
+.tm-filters { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-end; }
+.tm-filters > label:not(.inline) { flex: 1 1 170px; }
+.tm-filters .btn[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+
+.tm-stale td { opacity: .6; }
+.tm-detail > td { background: var(--bg-input); }
+.tm-suggestions ul { margin: 0; padding-left: 1.2rem; }
+.tm-suggestions li + li { margin-top: .25rem; }
+
+.tm-summary { cursor: pointer; font-weight: 600; }
