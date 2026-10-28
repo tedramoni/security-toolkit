@@ -37,4 +37,25 @@ export const MODULES: ModuleDef[] = [
     description: 'Check lockfiles against OSV.dev for known vulnerabilities and generate GitHub Actions security workflows.',
     Component: lazy(() => import('../modules/deps/index.tsx')),
   },
+  {
+    path: '/data-lab',
+    title: 'Data Lab',
+    icon: '🧪',
+    description: 'CyberChef-style recipes: chain encoding, crypto, compression, hashing and extraction operations, with Magic auto-detect.',
+    Component: lazy(() => import('../modules/data-lab/index.tsx')),
+  },
+  {
+    path: '/pki',
+    title: 'PKI Tools',
+    icon: '🔐',
+    description: 'Decode and lint certificates, CSRs and CRLs, generate CSRs, match keys, convert formats, plan key ceremonies.',
+    Component: lazy(() => import('../modules/pki/index.tsx')),
+  },
+  {
+    path: '/skill-scanner',
+    title: 'AI Skill Scanner',
+    icon: '🤖',
+    description: 'Scan AI agent skills, MCP configs and agent hooks for prompt injection, exfiltration and dangerous commands.',
+    Component: lazy(() => import('../modules/skill-scanner/index.tsx')),
+  },
 ]

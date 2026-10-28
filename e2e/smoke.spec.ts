@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const ROUTES = ['', '#/threat-model', '#/toolbox', '#/checklists', '#/deps']
+const ROUTES = ['', '#/threat-model', '#/toolbox', '#/checklists', '#/deps', '#/data-lab', '#/pki', '#/skill-scanner']
 
 for (const route of ROUTES) {
   test(`renders ${route || 'home'} without errors`, async ({ page }) => {
