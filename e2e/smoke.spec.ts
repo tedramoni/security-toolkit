@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const ROUTES = ['', '#/threat-model', '#/toolbox', '#/checklists', '#/deps', '#/data-lab', '#/pki', '#/skill-scanner']
+const ROUTES = ['', 'threat-model/', 'toolbox/', 'checklists/', 'deps/', 'data-lab/', 'pki/', 'skill-scanner/', 'recon/']
 
 for (const route of ROUTES) {
   test(`renders ${route || 'home'} without errors`, async ({ page }) => {
@@ -12,7 +12,7 @@ for (const route of ROUTES) {
 
     await page.goto(route)
     await expect(page.locator('h1').first()).toBeVisible()
-    await page.screenshot({ path: `test-results/screens/${route.replace('#/', '') || 'home'}.png`, fullPage: true })
+    await page.screenshot({ path: `test-results/screens/${route.replace(/\/$/, '') || 'home'}.png`, fullPage: true })
     expect(errors).toEqual([])
   })
 }

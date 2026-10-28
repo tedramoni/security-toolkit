@@ -1,0 +1,15 @@
+{
+  "name": "Security Toolkit",
+  "short_name": "SecToolkit",
+  "description": "Free AppSec tools that run 100% in your browser: threat modeling, JWT & CSP checks, OWASP checklists, CVE lookups, data decoding, PKI and AI skill scanning.",
+  "start_url": "/security-toolkit/",
+  "scope": "/security-toolkit/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    { "src": "/security-toolkit/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/security-toolkit/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/security-toolkit/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

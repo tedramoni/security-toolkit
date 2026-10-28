@@ -30,7 +30,7 @@ export function makeSavedRecipe(name: string, steps: readonly RecipeStep[], incl
 }
 
 /**
- * Share link for the current page (hash route). The input data is never included.
+ * Share link to the Data Lab page. The input data is never included.
  * Throws RecipeError when the recipe is too large to be loaded back from a link.
  */
 export function shareLink(steps: readonly RecipeStep[], includeSecrets: boolean): string {
@@ -38,6 +38,5 @@ export function shareLink(steps: readonly RecipeStep[], includeSecrets: boolean)
   if (param.length > MAX_RECIPE_PARAM) {
     throw new RecipeError(`This recipe is too large for a share link (${Math.ceil(param.length / 1024)} KB, max ${MAX_RECIPE_PARAM / 1024} KB). Use Export instead.`)
   }
-  const base = window.location.href.split('#')[0]
-  return `${base}#/data-lab?recipe=${param}`
+  return `${window.location.origin}${import.meta.env.BASE_URL}data-lab/?recipe=${param}`
 }
