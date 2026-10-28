@@ -26,7 +26,7 @@ export function Home() {
   return (
     <>
       <header className="page-header">
-        <h1>Security Champion Toolkit</h1>
+        <h1>Security Toolkit</h1>
         <p>Everyday tools to bring security into your team's design, code review and delivery, with no backend.</p>
       </header>
 
@@ -53,7 +53,7 @@ export function Home() {
           review{reviews === 1 ? '' : 's'}
         </p>
         <div className="row">
-          <button className="btn" onClick={() => downloadJSON('security-champion-backup.json', exportAll())}>
+          <button className="btn" onClick={() => downloadJSON('security-toolkit-backup.json', exportAll())}>
             Export backup
           </button>
           <button className="btn" onClick={() => fileRef.current?.click()}>

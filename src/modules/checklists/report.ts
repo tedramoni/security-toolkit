@@ -125,6 +125,6 @@ export function reviewToMarkdown(review: Review, checklist: Checklist, opts: Rep
     lines.push('')
   }
 
-  lines.push(`<sub>Generated with Security Champion Toolkit · ${mdInline(checklist.title)} v${mdInline(checklist.version)}</sub>`)
+  lines.push(`<sub>Generated with Security Toolkit · ${mdInline(checklist.title)} v${mdInline(checklist.version)}</sub>`)
   return lines.join('\n')
 }

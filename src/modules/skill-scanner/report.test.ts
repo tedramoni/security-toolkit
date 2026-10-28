@@ -10,7 +10,7 @@ const result = scanFilesSync(malicious.files)
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 describe('SARIF 2.1.0', () => {
-  const sarif = toSarif(result.findings, { pathPrefix: 'skills/', informationUri: 'https://example.github.io/security-champion/' }) as any
+  const sarif = toSarif(result.findings, { pathPrefix: 'skills/', informationUri: 'https://example.github.io/security-toolkit/' }) as any
 
   it('has the required top-level structure', () => {
     expect(sarif.version).toBe('2.1.0')

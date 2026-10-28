@@ -6,7 +6,7 @@ import type { ScoreResult } from './score'
 import type { Finding, Sev, Suppression } from './types'
 import { CATEGORIES, SEVERITIES } from './types'
 
-export const TOOL_NAME = 'AI Skill Scanner (Security Champion Toolkit)'
+export const TOOL_NAME = 'AI Skill Scanner (Security Toolkit)'
 export const TOOL_VERSION = '1.0.0'
 export const BASELINE_FILENAME = '.skill-scanner-baseline.json'
 export const FINGERPRINT_KEY = 'skillScanner/v1'

@@ -7,7 +7,7 @@ export function Layout() {
       <aside className="sidebar">
         <NavLink to="/" className="brand">
           <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" />
-          Security Champion
+          Security Toolkit
         </NavLink>
         <nav className="nav" aria-label="Modules">
           <NavLink to="/" end>

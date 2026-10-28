@@ -1,6 +1,6 @@
-# Security Champion Toolkit
+# Security Toolkit
 
-A browser-only toolbox for Security Champions: threat modeling, secure code review checklists, everyday dev security tools and dependency vulnerability checks. It is hosted on GitHub Pages and has **no backend**. Everything you type or paste stays in your browser (localStorage).
+A browser-only security toolbox for developers and AppSec teams: threat modeling, secure code review checklists, everyday dev security tools and dependency vulnerability checks. It is hosted on GitHub Pages and has **no backend**. Everything you type or paste stays in your browser (localStorage).
 
 ## Modules
 
@@ -25,7 +25,7 @@ A browser-only toolbox for Security Champions: threat modeling, secure code revi
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173/security-champion/
+npm run dev          # http://localhost:5173/security-toolkit/
 npm test             # unit tests (Vitest)
 npm run lint         # oxlint
 npm run build        # type-check + production build to dist/
@@ -48,8 +48,8 @@ To add a tool, create `src/modules/<name>/index.tsx` with a default-exported com
 
 The `Deploy to GitHub Pages` workflow builds and publishes on every push to `main`.
 
-1. Push this repository to GitHub as `security-champion`. If you use a different name, update `base` in [vite.config.ts](vite.config.ts) and the URLs in [playwright.config.ts](playwright.config.ts).
+1. Push this repository to GitHub as `security-toolkit`. If you use a different name, update `base` in [vite.config.ts](vite.config.ts) and the URLs in [playwright.config.ts](playwright.config.ts).
 2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
-3. The site is served at `https://<user>.github.io/security-champion/`.
+3. The site is served at `https://<user>.github.io/security-toolkit/`.
 
 CI runs lint, unit tests, build and Playwright smoke tests on every push and pull request. CodeQL and Dependabot are enabled for the repository itself.

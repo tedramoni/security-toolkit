@@ -264,7 +264,7 @@ export function toMarkdown(model: ThreatModel, now: string = new Date().toISOStr
     out.push(table(['Element', 'Threat', 'Status'], staleList.map((t) => [elName(t.elementId), t.title, STATUS_LABELS[t.status]])), '')
   }
 
-  out.push('---', '_Generated with Security Champion Toolkit — risk = likelihood (1-3) × impact (1-3): 1-2 low, 3-4 medium, 6 high, 9 critical._', '')
+  out.push('---', '_Generated with Security Toolkit — risk = likelihood (1-3) × impact (1-3): 1-2 low, 3-4 medium, 6 high, 9 critical._', '')
   return out.join('\n')
 }
 

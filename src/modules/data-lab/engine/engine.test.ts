@@ -174,7 +174,7 @@ describe('analysis', () => {
 })
 
 describe('Magic', () => {
-  const text = 'The quick brown fox jumps over the lazy dog. Security champions love decoding data.'
+  const text = 'The quick brown fox jumps over the lazy dog. Security teams love decoding data.'
   const names = (r: Awaited<ReturnType<typeof magic>>) => r.map((x) => x.steps.map((s) => s.opId).join('>'))
 
   it('finds plain Base64', async () => {

@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 // base must match the GitHub repository name for GitHub Pages
 export default defineConfig({
-  base: '/security-champion/',
+  base: '/security-toolkit/',
   plugins: [react()],
   test: {
     environment: 'jsdom',

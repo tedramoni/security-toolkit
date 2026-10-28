@@ -215,7 +215,7 @@ export function reviewExport(review: Review, checklist?: Pick<Checklist, 'title'
   return {
     ...review,
     checklist: checklist ? { title: checklist.title, version: checklist.version, source: checklist.source } : undefined,
-    exportedBy: 'Security Champion Toolkit',
+    exportedBy: 'Security Toolkit',
   }
 }
 
